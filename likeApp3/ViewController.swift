@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ViewController: UIViewController, UIImagePickerControllerDelegate, UITextFieldDelegate {
+class ViewController: UIViewController, UIImagePickerControllerDelegate, UITextFieldDelegate, UIGestureRecognizerDelegate, UINavigationControllerDelegate {
     
     var addingLike = false
     var addingDislike = false
@@ -39,6 +39,11 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UITextF
         
         photoImageView.frame = CGRectMake((sizeRect.size.width - 100)/2, 50, 100, 100)
         photoImageView.backgroundColor = UIColor.grayColor()
+        photoImageView.userInteractionEnabled = true
+        
+        let selecPhoto = UITapGestureRecognizer(target: self, action:Selector("selectPhoto"))
+        selecPhoto.delegate = self
+        photoImageView.addGestureRecognizer(selecPhoto)
         
         nameLabel.frame = CGRectMake((sizeRect.size.width - 300)/2, 170, 300, 50)
         nameLabel.textAlignment = .Center
@@ -124,25 +129,26 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UITextF
         textField.resignFirstResponder()
         return true;
     }
+    
+    func selectPhoto() {
+        
+        var photoPicker = UIImagePickerController()
+        photoPicker.delegate = self
+        photoPicker.sourceType = .PhotoLibrary
+        self.presentViewController(photoPicker, animated: true, completion: nil)
+        
+    }
+    
+    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [NSObject:AnyObject])
+    {
+        photoImageView.image = info[UIImagePickerControllerOriginalImage] as? UIImage
+        self.dismissViewControllerAnimated(false, completion: nil)
+    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
-//    @IBAction func openPhotoLibrary(sender: AnyObject) {
-//        
-//        var photoPicker = UIImagePickerController()
-//        photoPicker.delegate = self
-//        photoPicker.sourceType = .PhotoLibrary
-//        self.presentViewController(photoPicker, animated: true, completion: nil)
-//    }
-//    
-//    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [NSObject:AnyObject])
-//    {
-//        photoImageView.image = info[UIImagePickerControllerOriginalImage] as? UIImage
-//        self.dismissViewControllerAnimated(false, completion: nil)
-//    }
     
 }
 
