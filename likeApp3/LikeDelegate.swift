@@ -17,8 +17,7 @@ class LikeDelegate: NSObject, UITableViewDelegate, UITableViewDataSource {
         tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "cell")
         
         let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath) as UITableViewCell
-        
-        cell.textLabel.text = interests[indexPath.row]
+       
         
         return cell
     }
